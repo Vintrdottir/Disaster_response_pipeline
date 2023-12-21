@@ -26,11 +26,11 @@ def tokenize(text):
     return clean_tokens
 
 # load data
-engine = create_engine('sqlite:///../data/YourDatabaseName.db')
-df = pd.read_sql_table('YourTableName', engine)
+engine = create_engine('sqlite:///../data/DisasterResponse.db')
+df = pd.read_sql_table('MessagesCategories', engine)
 
 # load model
-model = joblib.load("../models/your_model_name.pkl")
+model = joblib.load("../models/classifier.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
@@ -41,27 +41,66 @@ def index():
     # extract data needed for visuals
     # TODO: Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
+    genre_per = round(100*genre_counts/genre_counts.sum(), 2)
     genre_names = list(genre_counts.index)
+    
+    categories_num = df.drop(['id', 'message', 'original', 'genre'], axis = 1).sum()
+    categories_num = categories_num.sort_values(ascending = False)
+    categories = list(categories_num.index)
+
+    colors = ['yellow', 'blue', 'green']
     
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
         {
-            'data': [
-                Bar(
-                    x=genre_names,
-                    y=genre_counts
-                )
-            ],
-
-            'layout': {
-                'title': 'Distribution of Message Genres',
-                'yaxis': {
-                    'title': "Count"
+            "data": [
+              {
+                "type": "pie",
+                "uid": "f4de1f",
+                "hole": 0.4,
+                "name": "Genre",
+                "pull": 0,
+                "domain": {
+                  "x": genre_per,
+                  "y": genre_names
                 },
-                'xaxis': {
-                    'title': "Genre"
+                "marker": {
+                  "colors": [
+                    "#7fc97f",
+                    "#beaed4",
+                    "#fdc086"
+                   ]
+                },
+                "textinfo": "label+value",
+                "hoverinfo": "all",
+                "labels": genre_names,
+                "values": genre_counts
+              }
+            ],
+            "layout": {
+              "title": "Count and Percent of Messages by Genre"
+            }
+        },
+        {
+            "data": [
+              {
+                "type": "bar",
+                "x": categories,
+                "y": categories_num,
+                "marker": {
+                  "color": 'grey'}
                 }
+            ],
+            "layout": {
+              "title": "Count of Messages by Category",
+              'yaxis': {
+                  'title': "Count"
+              },
+              'xaxis': {
+                  'title': "Genre"
+              },
+              'barmode': 'group'
             }
         }
     ]
