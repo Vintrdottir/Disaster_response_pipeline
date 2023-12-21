@@ -1,6 +1,6 @@
 # Disaster Response Message Categorization
 
-This project aims to develop a **Machine Learning Pipeline** to categorize messages sent during disaster events, enabling their efficient forwarding to the appropriate disaster relief agency. Additionally, a user-friendly web app has been created for data visualization, where emergency workers can input new messages and receive classification results across various categories.
+This project aims to develop a machine learning pipeline to categorize messages sent during disaster events, enabling their efficient forwarding to the appropriate disaster relief agency. Additionally, a user-friendly web app has been created for data visualization, where emergency workers can input new messages and receive classification results across various categories.
 
 ## Dataset
 The dataset used in this project, provided by Figure Eight, comprises real messages sent during disasters. The goal is to build a robust model that can accurately categorize these messages to streamline the response efforts.
