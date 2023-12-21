@@ -43,7 +43,27 @@ The Flask web app provides a user interface for interacting with the trained mod
 
 
 
-This comprehensive system, comprising ETL and ML pipelines along with a user-friendly web app, contributes to the effective categorization of disaster response messages, facilitating quicker and more targeted relief efforts.
-
 ## License
 This project was prepared as part of the [Udacity Data Scientist Nanodegree](https://www.udacity.com/course/data-scientist-nanodegree--nd025)
+
+## Executing Program
+
+1. **ETL Pipeline: Clean and Store Data**
+   - Run the following command to execute the ETL pipeline, which cleans the data and stores the processed information in the database:
+     ```bash
+     python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/disaster_response_db.db
+     ```
+
+2. **ML Pipeline: Train and Save Model**
+   - Execute the ML pipeline to load data from the database, train the classifier, and save the trained model as a pickle file:
+     ```bash
+     python models/train_classifier.py data/disaster_response_db.db models/classifier.pkl
+     ```
+
+3. **Run the Web App**
+   - Navigate to the app's directory and run the following command to start the web app:
+     ```bash
+     python run.py
+     ```
+
+
