@@ -33,26 +33,29 @@ def clean_data(df):
         df (DataFrame): The cleaned dataframe with duplicate rows removed and categories converted to binary values.
     """
     # create a dataframe of 36 individual category columns
-    categories = df['categories'].str.split (pat = ';', expand = True)
+    categories = df['categories'].str.split(pat=';', expand=True)
     
     # select the first row to extract a list of new column names for categories
-    row = categories.iloc [0]
-    category_colnames = row.apply (lambda x: x.rstrip ('- 0 1'))
+    row = categories.iloc[0]
+    category_colnames = row.apply(lambda x: x.rstrip('- 0 1'))
     categories.columns = category_colnames
     
     # convert category values to numbers 0 or 1
     for column in categories:
-        categories[column] = categories[column].str [-1]
-        categories[column] = pd.to_numeric(categories[column], errors = 'coerce')
+        categories[column] = categories[column].str[-1]
+        categories[column] = pd.to_numeric(categories[column], errors='coerce')
         
     # replace current category columns in df with new ones
-    df.drop (['categories'], axis = 1, inplace = True)
+    df.drop(['categories'], axis=1, inplace=True)
     
     # concatenate the original dataframe with the new `categories` dataframe
-    df = pd.concat ([df, categories], axis = 1, sort = False)
+    df = pd.concat([df, categories], axis=1, sort=False)
+    
+    # remove rows with 'related' column equal to 2
+    df = df[df['related'] != 2]
     
     # remove duplicates
-    df = df.drop_duplicates (subset = ['message'])
+    df = df.drop_duplicates(subset=['message'])
     
     return df
 
