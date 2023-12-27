@@ -21,6 +21,7 @@ warnings.simplefilter('ignore')
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem.porter import PorterStemmer
+from nltk.stem import WordNetLemmatizer
 
 
 
@@ -49,27 +50,27 @@ def load_data(database_filepath):
 def tokenize(text):
     """
     Tokenize the input text data for natural language processing.
-    
+
     Inputs:
         text (str): text data to be tokenized
-    
+
     Outputs:
-        normlized (list): List of normalized and tokenized words after converting to lowercase,
-                          removing non-alphanumeric characters, tokenizing, normalizing, and removing stop words
+        lemmatized (list): List of lemmatized and tokenized words after converting to lowercase,
+                           removing non-alphanumeric characters, tokenizing, normalizing, and removing stop words
     """
     # Converting everything to lower case
     text = re.sub(r"[^a-zA-Z0-9]", " ", text.lower())
-    
+
     # Tokenize words
     tokens = word_tokenize(text)
-    
-    # normalization word tokens and remove stop words
-    normlizer = PorterStemmer()
+
+    # Lemmatization and remove stop words
+    lemmatizer = WordNetLemmatizer()
     stop_words = stopwords.words("english")
-    
-    normlized = [normlizer.stem(word) for word in tokens if word not in stop_words]
-    
-    return normlized
+
+    lemmatized = [lemmatizer.lemmatize(word) for word in tokens if word not in stop_words]
+
+    return lemmatized
  
 
 def build_model():
